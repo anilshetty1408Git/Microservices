@@ -8,12 +8,8 @@
     </parent>
     <groupId>com.learning</groupId>
     <artifactId>amqp</artifactId>
-    <name>Archetype - amqp</name>
     <url>http://maven.apache.org</url>
-    <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-    </properties>
+    <packaging>jar</packaging>
 
     <dependencies>
     <dependency>
