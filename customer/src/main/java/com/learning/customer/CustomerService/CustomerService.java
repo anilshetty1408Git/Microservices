@@ -1,11 +1,14 @@
-package org.learning.customer.CustomerService;
+package com.learning.customer.CustomerService;
 
+import com.learning.amqp.RabbitMQMessageProducer;
 import com.learning.clients.fraud.FraudCheckResponse;
 import com.learning.clients.fraud.FraudClient;
+import com.learning.clients.notification.NotificationClient;
+import com.learning.clients.notification.NotificationRequest;
+import com.learning.customer.CustomerRepository;
+import com.learning.customer.model.Customer;
+import com.learning.customer.model.CustomerRegistrationRequest;
 import lombok.AllArgsConstructor;
-import org.learning.customer.CustomerRepository;
-import org.learning.customer.model.Customer;
-import org.learning.customer.model.CustomerRegistrationRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,8 +16,8 @@ import org.springframework.stereotype.Service;
 public class CustomerService {
 
     private final FraudClient fraudClient;
-
-//    private final RestTemplate restTemplate;
+    private final RabbitMQMessageProducer producer;
+    //    private final RestTemplate restTemplate;
     private CustomerRepository customerRepository;
 
     public void registerCustomer(CustomerRegistrationRequest customerRegistrationRequest) {
@@ -42,6 +45,17 @@ public class CustomerService {
         }
 
         //        todo: send notification
+        NotificationRequest notificationRequest = new NotificationRequest(
+                customer.getId(),
+                customer.getEmail(),
+                String.format("Hi %s, welcome to Leaning...",
+                        customer.getFirstName())
+        );
+       /* notificationClient.sendNotification(
+                notificationRequest
+        );*/
+//        ADD to QUEUE
+        producer.publish(notificationRequest,"internal.exchange","internal.notification.routing-key");
 
     }
 }

@@ -1,4 +1,4 @@
-package org.learning.customer.configurations;
+package com.learning.customer.configurations;
 
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;

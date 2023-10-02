@@ -1,4 +1,4 @@
-package org.learning.customer.model;
+package com.learning.customer.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
